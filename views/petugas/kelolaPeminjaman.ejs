@@ -1,0 +1,113 @@
+<style>
+    .alat-item {
+        display: inline-block;
+        background: #f1f5f9;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        margin: 2px 4px 2px 0;
+    }
+    .alat-item strong {
+        color: #2c3e50;
+    }
+    .btn-success {
+        background: #48bb78;
+    }
+    .btn-success:hover {
+        background: #38a169;
+    }
+</style>
+
+<h1>📋 Kelola Peminjaman</h1>
+
+<h2>⏳ Menunggu Persetujuan</h2>
+<% if (menunggu && menunggu.length > 0) { %>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Peminjam</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Rencana Kembali</th>
+                    <th>Alat yang Dipinjam</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% menunggu.forEach(m => { %>
+                <tr>
+                    <td>#<%= m.id_peminjaman %></td>
+                    <td><%= m.peminjam_nama %></td>
+                    <td><%= m.tanggal_pinjam %></td>
+                    <td><%= m.tanggal_rencana_kembali %></td>
+                    <td>
+                        <% if (m.details && m.details.length > 0) { %>
+                            <% m.details.forEach(d => { %>
+                                <span class="alat-item">
+                                    <strong><%= d.nama_alat %></strong> x<%= d.jumlah %>
+                                </span>
+                            <% }) %>
+                        <% } else { %>
+                            <span style="color: #999;">-</span>
+                        <% } %>
+                    </td>
+                    <td>
+                        <a href="/petugas/approve/<%= m.id_peminjaman %>" class="btn btn-success">✓ Setujui</a>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+<% } else { %>
+    <div class="empty-state">
+        <p>Tidak ada peminjaman yang menunggu persetujuan.</p>
+    </div>
+<% } %>
+
+<h2 style="margin-top: 2rem;">📌 Sedang Dipinjam</h2>
+<% if (dipinjam && dipinjam.length > 0) { %>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Peminjam</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Rencana Kembali</th>
+                    <th>Alat yang Dipinjam</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% dipinjam.forEach(d => { %>
+                <tr>
+                    <td>#<%= d.id_peminjaman %></td>
+                    <td><%= d.peminjam_nama %></td>
+                    <td><%= d.tanggal_pinjam %></td>
+                    <td><%= d.tanggal_rencana_kembali %></td>
+                    <td>
+                        <% if (d.details && d.details.length > 0) { %>
+                            <% d.details.forEach(item => { %>
+                                <span class="alat-item">
+                                    <strong><%= item.nama_alat %></strong> x<%= item.jumlah %>
+                                </span>
+                            <% }) %>
+                        <% } else { %>
+                            <span style="color: #999;">-</span>
+                        <% } %>
+                    </td>
+                    <td>
+                        <a href="/petugas/pengembalian/<%= d.id_peminjaman %>" class="btn">🔄 Proses Kembali</a>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+<% } else { %>
+    <div class="empty-state">
+        <p>Tidak ada alat yang sedang dipinjam.</p>
+    </div>
+<% } %>

@@ -1,0 +1,100 @@
+<div class="pinjam-page">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1>📝 Ajukan Peminjaman</h1>
+        <a href="/peminjam/alat" style="background: #667eea; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">🔍 Lihat Daftar Alat</a>
+    </div>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <div style="background: #fee; color: #c33; padding: 12px; border-radius: 5px; margin-bottom: 20px; border-left: 4px solid #c33;">
+            ⚠️ <%= error %>
+        </div>
+    <% } %>
+
+    <form action="/peminjam/pinjam" method="POST" id="pinjamForm" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #2c3e50;">📅 Tanggal Rencana Kembali</label>
+            <input type="date" name="tanggal_rencana_kembali" id="tanggalKembali" required style="width: 100%; max-width: 400px; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            <div style="font-size: 0.8rem; color: #999; margin-top: 5px;">Pilih tanggal rencana pengembalian alat (minimal 1 hari dari hari ini)</div>
+        </div>
+
+        <h3 style="margin-bottom: 15px; color: #2c3e50;">🛠️ Pilih Alat yang Akan Dipinjam</h3>
+        
+        <% if (alat && alat.length > 0) { %>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <thead>
+                    <tr style="background: #2c3e50; color: white;">
+                        <th style="padding: 12px;">Nama Alat</th>
+                        <th style="padding: 12px;">Kategori</th>
+                        <th style="padding: 12px;">Stok Tersedia</th>
+                        <th style="padding: 12px;">Jumlah Pinjam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% alat.forEach(a => { %>
+                        <tr style="border-bottom: 1px solid #ddd; <%= a.jumlah_tersedia > 0 ? '' : ' opacity: 0.6;' %>">
+                            <td style="padding: 12px;"><strong><%= a.nama_alat %></strong></td>
+                            <td style="padding: 12px;"><%= a.kategori || '-' %></td>
+                            <td style="padding: 12px;">
+                                <% if (a.jumlah_tersedia > 0) { %>
+                                    <span style="color: #48bb78; font-weight: bold;">✅ <%= a.jumlah_tersedia %></span>
+                                <% } else { %>
+                                    <span style="color: #e53e3e; font-weight: bold;">❌ Stok Habis</span>
+                                <% } %>
+                            </td>
+                            <td style="padding: 12px;">
+                                <% if (a.jumlah_tersedia > 0) { %>
+                                    <input type="number" name="jumlah_<%= a.id_alat %>" class="jumlah-input" min="0" max="<%= a.jumlah_tersedia %>" value="0" style="width: 80px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; text-align: center;">
+                                    <div style="font-size: 0.75rem; color: #999; margin-top: 4px;">Maksimal <%= a.jumlah_tersedia %></div>
+                                <% } else { %>
+                                    <span style="color: #999;">Tidak tersedia</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+
+            <% if (alat.some(a => a.jumlah_tersedia > 0)) { %>
+                <div style="display: flex; gap: 15px;">
+                    <button type="submit" style="background: #48bb78; color: white; padding: 10px 24px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">📤 Ajukan Peminjaman</button>
+                    <a href="/peminjam/alat" style="background: #e53e3e; color: white; padding: 10px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">❌ Batal</a>
+                </div>
+            <% } %>
+        <% } else { %>
+            <div style="text-align: center; padding: 40px; background: #f9f9f9; border-radius: 8px; color: #666;">
+                <p>Belum ada data alat yang tersedia.</p>
+            </div>
+        <% } %>
+    </form>
+</div>
+
+<script>
+    // Set minimal tanggal kembali ke hari ini + 1
+    const dateInput = document.getElementById('tanggalKembali');
+    if (dateInput) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const yyyy = tomorrow.getFullYear();
+        const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+        const dd = String(tomorrow.getDate()).padStart(2, '0');
+        dateInput.min = `${yyyy}-${mm}-${dd}`;
+    }
+
+    // Validasi sebelum submit
+    document.getElementById('pinjamForm').addEventListener('submit', function(e) {
+        const inputs = document.querySelectorAll('.jumlah-input');
+        let hasSelected = false;
+        
+        inputs.forEach(input => {
+            if (parseInt(input.value) > 0) {
+                hasSelected = true;
+            }
+        });
+        
+        if (!hasSelected) {
+            e.preventDefault();
+            alert('⚠️ Silakan pilih minimal satu alat yang akan dipinjam.');
+            return false;
+        }
+    });
+</script>

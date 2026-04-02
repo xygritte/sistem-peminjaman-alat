@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Sistem Peminjaman Alat</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .alat-list {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        .alat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .alat-item:last-child {
+            border-bottom: none;
+        }
+        .alat-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .alat-jumlah {
+            color: #667eea;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <nav class="navbar">
+            <div class="nav-brand">🧹 Sistem Peminjaman Alat Kebersihan</div>
+            <div class="nav-user">
+                Halo, <strong><%= user.nama %></strong> (<%= user.role %>) | 
+                <a href="/logout">Logout</a>
+            </div>
+        </nav>
+
+        <div class="sidebar">
+            <ul>
+                <li><a href="/petugas/dashboard">📊 Dashboard</a></li>
+                <li><a href="/petugas/alat">🧽 Data Alat</a></li>
+                <li><a href="/petugas/kelolaPeminjaman" class="active">📋 Kelola Peminjaman</a></li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <h1>🔄 Proses Pengembalian</h1>
+            
+            <div class="card">
+                <h3>📋 Informasi Peminjaman</h3>
+                <p><strong>ID Peminjaman:</strong> #<%= peminjaman.id_peminjaman %></p>
+                <p><strong>Peminjam:</strong> <%= peminjaman.peminjam_nama %></p>
+                <p><strong>Tanggal Pinjam:</strong> <%= peminjaman.tanggal_pinjam %></p>
+                <p><strong>Rencana Kembali:</strong> <%= peminjaman.tanggal_rencana_kembali %></p>
+                
+                <h3>🛠️ Alat yang Dipinjam</h3>
+                <div class="alat-list">
+                    <% if (peminjaman.details && peminjaman.details.length > 0) { %>
+                        <% peminjaman.details.forEach(d => { %>
+                            <div class="alat-item">
+                                <span class="alat-name">🧽 <%= d.nama_alat %></span>
+                                <span class="alat-jumlah">x <%= d.jumlah %></span>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p style="color: #999;">Tidak ada data alat</p>
+                    <% } %>
+                </div>
+            </div>
+            
+            <form action="/petugas/pengembalian/<%= peminjaman.id_peminjaman %>" method="POST" class="card" style="margin-top: 1.5rem;">
+                <div class="form-group">
+                    <label>🔧 Kondisi Alat</label>
+                    <select name="kondisi" required>
+                        <option value="baik">Baik</option>
+                        <option value="rusak ringan">Rusak Ringan</option>
+                        <option value="rusak berat">Rusak Berat</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>📝 Catatan</label>
+                    <textarea name="catatan" rows="3" placeholder="Masukkan catatan jika ada kerusakan atau keterangan lain..."></textarea>
+                </div>
+                
+                <div class="form-actions" style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-success">✓ Proses Pengembalian</button>
+                    <a href="/petugas/kelolaPeminjaman" class="btn btn-danger">❌ Batal</a>
+                </div>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<div class="form-page" style="max-width: 600px; margin: 0 auto;">
+    <h1><%= alatData ? '✏️ Edit Alat' : '➕ Tambah Alat' %></h1>
+    
+    <form action="<%= alatData ? '/admin/alat/edit/' + alatData.id_alat : '/admin/alat/add' %>" method="POST" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50;">🧹 Nama Alat</label>
+            <input type="text" name="nama_alat" value="<%= alatData ? alatData.nama_alat : '' %>" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50;">📁 Kategori</label>
+            <input type="text" name="kategori" value="<%= alatData ? alatData.kategori : '' %>" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50;">📊 Jumlah Total</label>
+            <input type="number" name="jumlah_total" value="<%= alatData ? alatData.jumlah_total : 0 %>" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50;">✅ Jumlah Tersedia</label>
+            <input type="number" name="jumlah_tersedia" value="<%= alatData ? alatData.jumlah_tersedia : 0 %>" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50;">🔧 Kondisi</label>
+            <select name="kondisi" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                <option value="baik" <%= alatData && alatData.kondisi === 'baik' ? 'selected' : '' %>>Baik</option>
+                <option value="rusak ringan" <%= alatData && alatData.kondisi === 'rusak ringan' ? 'selected' : '' %>>Rusak Ringan</option>
+                <option value="rusak berat" <%= alatData && alatData.kondisi === 'rusak berat' ? 'selected' : '' %>>Rusak Berat</option>
+            </select>
+        </div>
+        
+        <div style="margin-bottom: 25px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50;">📍 Lokasi</label>
+            <input type="text" name="lokasi" value="<%= alatData ? alatData.lokasi : '' %>" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+        </div>
+        
+        <div style="display: flex; gap: 15px;">
+            <button type="submit" style="background: #48bb78; color: white; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer;">💾 Simpan</button>
+            <a href="/admin/alat" style="background: #e53e3e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px;">❌ Batal</a>
+        </div>
+    </form>
+</div>

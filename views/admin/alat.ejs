@@ -1,0 +1,38 @@
+<div class="alat-page">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1>Data Alat Kebersihan</h1>
+        <a href="/admin/alat/add" style="background: #48bb78; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">+ Tambah Alat</a>
+    </div>
+    
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #2c3e50; color: white;">
+                <th style="padding: 12px;">ID</th>
+                <th style="padding: 12px;">Nama Alat</th>
+                <th style="padding: 12px;">Kategori</th>
+                <th style="padding: 12px;">Total</th>
+                <th style="padding: 12px;">Tersedia</th>
+                <th style="padding: 12px;">Kondisi</th>
+                <th style="padding: 12px;">Lokasi</th>
+                <th style="padding: 12px;">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% alat.forEach(a => { %>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td style="padding: 12px;"><%= a.id_alat %></td>
+                <td style="padding: 12px;"><%= a.nama_alat %></td>
+                <td style="padding: 12px;"><%= a.kategori || '-' %></td>
+                <td style="padding: 12px;"><%= a.jumlah_total %></td>
+                <td style="padding: 12px;"><%= a.jumlah_tersedia %></td>
+                <td style="padding: 12px;"><%= a.kondisi %></td>
+                <td style="padding: 12px;"><%= a.lokasi || '-' %></td>
+                <td style="padding: 12px;">
+                    <a href="/admin/alat/edit/<%= a.id_alat %>" style="color: #667eea; margin-right: 10px;">Edit</a>
+                    <a href="/admin/alat/delete/<%= a.id_alat %>" onclick="return confirm('Yakin ingin menghapus alat ini?')" style="color: #e53e3e;">Hapus</a>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

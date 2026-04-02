@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'Aplikasi' %> - Sistem Peminjaman Alat</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app">
+        <nav class="navbar">
+            <div class="nav-brand">🧹 Sistem Peminjaman Alat Kebersihan</div>
+            <div class="nav-user">
+                Halo, <strong><%= typeof user !== 'undefined' ? user.nama : 'Guest' %></strong> (<%= typeof user !== 'undefined' ? user.role : '-' %>) |
+                <a href="/logout">Logout</a>
+            </div>
+        </nav>
+        
+        <div class="sidebar">
+            <ul>
+                <% if (typeof user !== 'undefined' && user.role === 'admin') { %>
+                    <li><a href="/admin/dashboard">📊 Dashboard</a></li>
+                    <li><a href="/admin/users">👥 Manajemen User</a></li>
+                    <li><a href="/admin/alat">🧽 Data Alat</a></li>
+                    <li><a href="/admin/peminjaman">📋 Peminjaman</a></li>
+                    <li><a href="/admin/pengembalian">🔄 Pengembalian</a></li>
+                    <li><a href="/admin/logs">📜 Log Aktivitas</a></li>
+                <% } else if (typeof user !== 'undefined' && user.role === 'petugas') { %>
+                    <li><a href="/petugas/dashboard">📊 Dashboard</a></li>
+                    <li><a href="/petugas/alat">🧽 Data Alat</a></li>
+                    <li><a href="/petugas/kelolaPeminjaman">📋 Kelola Peminjaman</a></li>
+                <% } else if (typeof user !== 'undefined' && user.role === 'peminjam') { %>
+                    <li><a href="/peminjam/dashboard">📊 Dashboard</a></li>
+                    <li><a href="/peminjam/alat">🧽 Daftar Alat</a></li>
+                    <li><a href="/peminjam/pinjam">📝 Ajukan Peminjaman</a></li>
+                    <li><a href="/peminjam/riwayat">📜 Riwayat</a></li>
+                <% } %>
+            </ul>
+        </div>
+        
+        <main class="content">
+            <%- typeof body !== 'undefined' ? body : (typeof content !== 'undefined' ? content : '') %>
+        </main>
+    </div>
+</body>
+</html>

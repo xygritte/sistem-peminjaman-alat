@@ -1,0 +1,24 @@
+<div class="logs-page">
+    <h1>Log Aktivitas</h1>
+    
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr style="background: #2c3e50; color: white;">
+                <th style="padding: 12px;">ID</th>
+                <th style="padding: 12px;">User</th>
+                <th style="padding: 12px;">Aktivitas</th>
+                <th style="padding: 12px;">Waktu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% logs.forEach(log => { %>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td style="padding: 12px;"><%= log.id_log %></td>
+                <td style="padding: 12px;"><%= log.nama %></td>
+                <td style="padding: 12px;"><%= log.aktivitas %></td>
+                <td style="padding: 12px;"><%= log.waktu %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

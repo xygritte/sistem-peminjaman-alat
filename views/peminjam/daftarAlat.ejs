@@ -1,0 +1,51 @@
+<div class="alat-page">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1>🧹 Daftar Alat Kebersihan</h1>
+        <a href="/peminjam/pinjam" style="background: #48bb78; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">➕ Ajukan Peminjaman</a>
+    </div>
+
+    <% if (alat && alat.length > 0) { %>
+    <table style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <thead>
+            <tr style="background: #2c3e50; color: white;">
+                <th style="padding: 12px;">Nama Alat</th>
+                <th style="padding: 12px;">Kategori</th>
+                <th style="padding: 12px;">Total Stok</th>
+                <th style="padding: 12px;">Tersedia</th>
+                <th style="padding: 12px;">Lokasi</th>
+                <th style="padding: 12px;">Kondisi</th>
+                <th style="padding: 12px;">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% alat.forEach(a => { %>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td style="padding: 12px;"><strong><%= a.nama_alat %></strong></td>
+                <td style="padding: 12px;"><%= a.kategori || 'Umum' %></td>
+                <td style="padding: 12px;"><%= a.jumlah_total %></td>
+                
+                <td style="padding: 12px; font-weight: bold; color: <%= a.jumlah_tersedia > 0 ? '#48bb78' : '#e53e3e' %>;">
+                    <%= a.jumlah_tersedia %>
+                </td>
+                
+                <td style="padding: 12px;"><%= a.lokasi || 'Tidak ditentukan' %></td>
+                <td style="padding: 12px;"><%= a.kondisi %></td>
+                <td style="padding: 12px;">
+                    <% if (a.jumlah_tersedia > 0) { %>
+                        <a href="/peminjam/pinjam" style="background: #667eea; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 0.9rem;">📝 Pinjam</a>
+                    <% } else { %>
+                        <span style="background: #ccc; color: #666; padding: 6px 12px; border-radius: 4px; font-size: 0.9rem;">⛔ Habis</span>
+                    <% } %>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <% } else { %>
+        <div style="text-align: center; padding: 40px; background: white; border-radius: 8px; color: #666; border: 1px solid #eee;">
+            <p style="font-size: 3rem; margin-bottom: 10px;">🧹</p>
+            <p>Belum ada data alat kebersihan.</p>
+            <p style="font-size: 0.9rem; margin-top: 5px;">Silakan hubungi admin untuk menambahkan alat.</p>
+        </div>
+    <% } %>
+</div>

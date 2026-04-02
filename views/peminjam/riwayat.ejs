@@ -1,0 +1,141 @@
+<style>
+    .alat-item {
+        display: inline-block;
+        background: #f1f5f9;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        margin: 2px 4px 2px 0;
+    }
+    .alat-item strong {
+        color: #2c3e50;
+    }
+    .detail-row {
+        cursor: pointer;
+    }
+    .toggle-icon {
+        display: inline-block;
+        transition: transform 0.2s;
+    }
+    .detail-row.expanded .toggle-icon {
+        transform: rotate(90deg);
+    }
+    .detail-content {
+        display: none;
+        background: #f8fafc;
+    }
+    .detail-content.show {
+        display: table-row;
+    }
+    .detail-cell {
+        padding: 16px !important;
+    }
+    .alat-list-detail {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .alat-card-detail {
+        background: white;
+        border-radius: 8px;
+        padding: 8px 12px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+</style>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+    <h1>📜 Riwayat Peminjaman</h1>
+    <a href="/peminjam/pinjam" class="btn btn-success">+ Ajukan Peminjaman</a>
+</div>
+
+<% if (riwayat && riwayat.length > 0) { %>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 30px;"></th>
+                    <th>ID</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Rencana Kembali</th>
+                    <th>Alat yang Dipinjam</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% riwayat.forEach((r, index) => { %>
+                    <tr class="detail-row" onclick="toggleDetail(<%= index %>)">
+                        <td><span class="toggle-icon">▶</span></td>
+                        <td>#<%= r.id_peminjaman %></td>
+                        <td><%= r.tanggal_pinjam %></td>
+                        <td><%= r.tanggal_rencana_kembali %></td>
+                        <td>
+                            <% if (r.details && r.details.length > 0) { %>
+                                <% r.details.forEach(d => { %>
+                                    <span class="alat-item">
+                                        <strong><%= d.nama_alat %></strong> x<%= d.jumlah %>
+                                    </span>
+                                <% }) %>
+                            <% } else { %>
+                                <span style="color: #999;">-</span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (r.status === 'menunggu') { %>
+                                <span class="status-badge status-menunggu">⏳ Menunggu</span>
+                            <% } else if (r.status === 'dipinjam') { %>
+                                <span class="status-badge status-dipinjam">📌 Dipinjam</span>
+                            <% } else { %>
+                                <span class="status-badge status-dikembalikan">✅ Dikembalikan</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <tr id="detail-<%= index %>" class="detail-content">
+                        <td colspan="6" class="detail-cell">
+                            <div>
+                                <h4 style="margin-bottom: 0.75rem; color: #2c3e50;">📦 Detail Alat yang Dipinjam:</h4>
+                                <div class="alat-list-detail">
+                                    <% if (r.details && r.details.length > 0) { %>
+                                        <% r.details.forEach(d => { %>
+                                            <div class="alat-card-detail">
+                                                <span>🧽</span>
+                                                <span><strong><%= d.nama_alat %></strong></span>
+                                                <span style="color: #667eea;">x <%= d.jumlah %></span>
+                                                <span style="color: #999; font-size: 0.7rem;">(<%= d.kategori || 'Umum' %>)</span>
+                                            </div>
+                                        <% }) %>
+                                    <% } else { %>
+                                        <p style="color: #999;">Tidak ada data detail alat</p>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+<% } else { %>
+    <div class="empty-state">
+        <p>📜</p>
+        <p>Belum ada riwayat peminjaman.</p>
+        <a href="/peminjam/pinjam" class="btn btn-success" style="margin-top: 1rem;">Ajukan Peminjaman</a>
+    </div>
+<% } %>
+
+<script>
+    function toggleDetail(index) {
+        const detailRow = document.getElementById(`detail-${index}`);
+        const parentRow = event.currentTarget;
+        
+        if (detailRow.classList.contains('show')) {
+            detailRow.classList.remove('show');
+            parentRow.classList.remove('expanded');
+        } else {
+            detailRow.classList.add('show');
+            parentRow.classList.add('expanded');
+        }
+    }
+</script>

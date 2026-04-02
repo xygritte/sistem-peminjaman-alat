@@ -1,0 +1,28 @@
+<div class="alat-page">
+    <h1>Data Alat Kebersihan</h1>
+    
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr style="background: #2c3e50; color: white;">
+                <th style="padding: 12px;">ID</th>
+                <th style="padding: 12px;">Nama Alat</th>
+                <th style="padding: 12px;">Kategori</th>
+                <th style="padding: 12px;">Tersedia</th>
+                <th style="padding: 12px;">Kondisi</th>
+                <th style="padding: 12px;">Lokasi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% alat.forEach(a => { %>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td style="padding: 12px;"><%= a.id_alat %></td>
+                <td style="padding: 12px;"><%= a.nama_alat %></td>
+                <td style="padding: 12px;"><%= a.kategori || '-' %></td>
+                <td style="padding: 12px;"><%= a.jumlah_tersedia %></td>
+                <td style="padding: 12px;"><%= a.kondisi %></td>
+                <td style="padding: 12px;"><%= a.lokasi || '-' %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

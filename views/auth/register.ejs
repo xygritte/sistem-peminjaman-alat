@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar - Sistem Peminjaman Alat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .register-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+        }
+        
+        .register-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .register-container .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+        
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border-left: 4px solid #c33;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .info-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>📝 Daftar Akun Baru</h2>
+        <div class="subtitle">Sistem Peminjaman Alat Kebersihan</div>
+        
+        <% if (error) { %>
+            <div class="error-message">
+                ⚠️ <%= error %>
+            </div>
+        <% } %>
+        
+        <form action="/register" method="POST">
+            <div class="form-group">
+                <label>👤 Nama Lengkap</label>
+                <input type="text" name="nama" value="<%= formData.nama || '' %>" placeholder="Masukkan nama lengkap" required>
+                <div class="info-text">Minimal 3 karakter</div>
+            </div>
+            
+            <div class="form-group">
+                <label>🔑 Username</label>
+                <input type="text" name="username" value="<%= formData.username || '' %>" placeholder="Masukkan username" required>
+                <div class="info-text">Minimal 4 karakter, akan digunakan untuk login</div>
+            </div>
+            
+            <div class="form-group">
+                <label>🔒 Password</label>
+                <input type="password" name="password" placeholder="Masukkan password" required>
+                <div class="info-text">Minimal 6 karakter</div>
+            </div>
+            
+            <div class="form-group">
+                <label>✓ Konfirmasi Password</label>
+                <input type="password" name="confirm_password" placeholder="Ketik ulang password" required>
+            </div>
+            
+            <button type="submit" class="btn-register">Daftar Sekarang</button>
+        </form>
+        
+        <hr>
+        
+        <div class="login-link">
+            Sudah punya akun? <a href="/login">Login di sini</a>
+        </div>
+        
+        <div class="login-link" style="margin-top: 10px;">
+            <a href="/">← Kembali ke Beranda</a>
+        </div>
+    </div>
+</body>
+</html>

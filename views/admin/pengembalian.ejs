@@ -1,0 +1,69 @@
+<style>
+    .alat-item {
+        display: inline-block;
+        background: #f1f5f9;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        margin: 2px 4px 2px 0;
+    }
+    .alat-item strong {
+        color: #2c3e50;
+    }
+</style>
+
+<h1>🔄 Data Pengembalian</h1>
+
+<% if (pengembalian && pengembalian.length > 0) { %>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Peminjam</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Tanggal Kembali</th>
+                    <th>Alat yang Dipinjam</th>
+                    <th>Kondisi</th>
+                    <th>Catatan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% pengembalian.forEach(p => { %>
+                <tr>
+                    <td>#<%= p.id_pengembalian %></td>
+                    <td><%= p.peminjam_nama %></td>
+                    <td><%= p.tanggal_pinjam %></td>
+                    <td><%= p.tanggal_kembali %></td>
+                    <td>
+                        <% if (p.details && p.details.length > 0) { %>
+                            <% p.details.forEach(d => { %>
+                                <span class="alat-item">
+                                    <strong><%= d.nama_alat %></strong> x<%= d.jumlah %>
+                                </span>
+                            <% }) %>
+                        <% } else { %>
+                            <span style="color: #999;">-</span>
+                        <% } %>
+                    </td>
+                    <td>
+                        <% if (p.kondisi === 'baik') { %>
+                            <span style="color: #48bb78;">✅ Baik</span>
+                        <% } else if (p.kondisi === 'rusak ringan') { %>
+                            <span style="color: #ed8936;">⚠️ Rusak Ringan</span>
+                        <% } else { %>
+                            <span style="color: #e53e3e;">❌ Rusak Berat</span>
+                        <% } %>
+                    </td>
+                    <td><%= p.catatan || '-' %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+<% } else { %>
+    <div class="empty-state">
+        <p>🔄</p>
+        <p>Belum ada data pengembalian.</p>
+    </div>
+<% } %>

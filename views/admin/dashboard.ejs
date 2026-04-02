@@ -1,0 +1,41 @@
+<div class="dashboard">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1>📊 Dashboard Admin</h1>
+    </div>
+    
+    <div class="stats">
+        <div class="card" style="flex: 1; border-left: 5px solid #667eea;">
+            <h3 style="color: #666; font-size: 14px; margin-bottom: 10px;">👥 Total User</h3>
+            <p style="font-size: 28px; font-weight: bold; color: #2c3e50;">
+                <%= typeof totalUser !== 'undefined' ? totalUser : 0 %>
+            </p>
+        </div>
+        
+        <div class="card" style="flex: 1; border-left: 5px solid #48bb78;">
+            <h3 style="color: #666; font-size: 14px; margin-bottom: 10px;">🧽 Total Alat Kebersihan</h3>
+            <p style="font-size: 28px; font-weight: bold; color: #2c3e50;">
+                <%= typeof totalAlat !== 'undefined' ? totalAlat : 0 %>
+            </p>
+        </div>
+        
+        <div class="card" style="flex: 1; border-left: 5px solid #ed8936;">
+            <h3 style="color: #666; font-size: 14px; margin-bottom: 10px;">📋 Total Peminjaman</h3>
+            <p style="font-size: 28px; font-weight: bold; color: #2c3e50;">
+                <%= typeof totalPeminjaman !== 'undefined' ? totalPeminjaman : 0 %>
+            </p>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 20px;">
+        <h2 style="margin-bottom: 15px; color: #2c3e50;">Selamat Datang, <%= typeof user !== 'undefined' ? user.nama : 'Admin' %>! 👋</h2>
+        <p style="color: #666; line-height: 1.6;">
+            Ini adalah panel kendali utama untuk administrator. Di sini Anda memiliki hak akses penuh untuk mengelola data master pengguna, menambah atau mengubah data alat kebersihan, serta memantau seluruh log transaksi peminjaman dan pengembalian barang.
+        </p>
+        
+        <div style="margin-top: 20px; display: flex; gap: 15px;">
+            <a href="/admin/users" class="btn">👥 Kelola User</a>
+            <a href="/admin/alat" class="btn btn-success">🧽 Kelola Alat</a>
+            <a href="/admin/peminjaman" class="btn" style="background: #ed8936;">📋 Pantau Peminjaman</a>
+        </div>
+    </div>
+</div>

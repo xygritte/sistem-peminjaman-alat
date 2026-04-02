@@ -1,0 +1,38 @@
+<div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1>👥 Manajemen User</h1>
+        <a href="/admin/users/add" class="btn btn-success">+ Tambah User</a>
+    </div>
+    
+    <% if (users && users.length > 0) { %>
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Nama</th><th>Username</th><th>Role</th><th>Aksi</th></tr>
+            </thead>
+            <tbody>
+                <% users.forEach(u => { %>
+                <tr>
+                    <td><%= u.id_user %></td>
+                    <td><%= u.nama %></td>
+                    <td><%= u.username %></td>
+                    <td>
+                        <% if (u.role === 'admin') { %>
+                            <span style="background:#e53e3e;color:white;padding:4px 12px;border-radius:20px;">Admin</span>
+                        <% } else if (u.role === 'petugas') { %>
+                            <span style="background:#ed8936;color:white;padding:4px 12px;border-radius:20px;">Petugas</span>
+                        <% } else { %>
+                            <span style="background:#48bb78;color:white;padding:4px 12px;border-radius:20px;">Peminjam</span>
+                        <% } %>
+                    </td>
+                    <td>
+                        <a href="/admin/users/edit/<%= u.id_user %>">✏️ Edit</a> |
+                        <a href="/admin/users/delete/<%= u.id_user %>" onclick="return confirm('Yakin?')">🗑️ Hapus</a>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>Belum ada data user.</p>
+    <% } %>
+</div>

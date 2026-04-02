@@ -1,0 +1,67 @@
+<style>
+    .alat-item {
+        display: inline-block;
+        background: #f1f5f9;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        margin: 2px 4px 2px 0;
+    }
+    .alat-item strong {
+        color: #2c3e50;
+    }
+</style>
+
+<h1>📋 Data Peminjaman</h1>
+
+<% if (peminjaman && peminjaman.length > 0) { %>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Peminjam</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Rencana Kembali</th>
+                    <th>Alat yang Dipinjam</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% peminjaman.forEach(p => { %>
+                <tr>
+                    <td>#<%= p.id_peminjaman %></td>
+                    <td><%= p.peminjam_nama %></td>
+                    <td><%= p.tanggal_pinjam %></td>
+                    <td><%= p.tanggal_rencana_kembali %></td>
+                    <td>
+                        <% if (p.details && p.details.length > 0) { %>
+                            <% p.details.forEach(d => { %>
+                                <span class="alat-item">
+                                    <strong><%= d.nama_alat %></strong> x<%= d.jumlah %>
+                                </span>
+                            <% }) %>
+                        <% } else { %>
+                            <span style="color: #999;">-</span>
+                        <% } %>
+                    </td>
+                    <td>
+                        <% if (p.status === 'menunggu') { %>
+                            <span class="status-badge status-menunggu">⏳ Menunggu</span>
+                        <% } else if (p.status === 'dipinjam') { %>
+                            <span class="status-badge status-dipinjam">📌 Dipinjam</span>
+                        <% } else { %>
+                            <span class="status-badge status-dikembalikan">✅ Dikembalikan</span>
+                        <% } %>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+<% } else { %>
+    <div class="empty-state">
+        <p>📋</p>
+        <p>Belum ada data peminjaman.</p>
+    </div>
+<% } %>
